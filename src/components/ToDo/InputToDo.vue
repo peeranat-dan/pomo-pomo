@@ -51,7 +51,7 @@ const buttonText = computed(() => {
   } else if (enteredOption.value === 'view') {
     return {
       main: 'Edit',
-      cancel: 'Cancel'
+      cancel: 'Close'
     };
   }
 });
