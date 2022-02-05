@@ -8,6 +8,10 @@ const props = defineProps({
     toDo: {
         type: Object,
         required: true
+    },
+    isArchive: {
+        type: Boolean,
+        required: false,
     }
 });
 
@@ -47,14 +51,11 @@ const btnFunction = async (option) => {
 <template>
     <div class="bg-white rounded-xl shadow-sm hover:shadow-lg w-full overflow-hidden container flow-root my-2 py-2 px-3">
         <div class="float-left flex mt-1">
-            <input :checked="props.toDo.completed_at !== null" type="checkbox" class="mx-2 rounded-full w-5 h-5 mt-1" @click="btnFunction('finish')"/>
-            <label data-tooltip-target="tooltip-default" class="text-lg hover:cursor-pointer" @click="toggleDialog('view')">{{ displayTitle }}</label>
-            <div id="tooltip-default" role="tooltip" class="inline-block absolute invisible z-10 py-2 px-3 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 transition-opacity duration-300 tooltip dark:bg-gray-700">
-                view task details
-                <div class="tooltip-arrow" data-popper-arrow></div>
-            </div>
+            <input v-if="!isArchive" :checked="props.toDo.completed_at !== null" type="checkbox" class="mx-2 rounded-full w-5 h-5 mt-1" @click="btnFunction('finish')"/>
+            <label v-if="!isArchive" class="text-lg hover:cursor-pointer" @click="toggleDialog('view')">{{ displayTitle }}</label>
+            <label v-else class="text-lg select-none">{{ displayTitle }}</label>
         </div>
-        <div class="float-right flex space-x-2 text-center">
+        <div class="float-right flex space-x-2 text-center" v-if="!isArchive">
             <button :disabled="isDoingAction || !!props.toDo.completed_at" type="button" class="text-white bg-purple-400 hover:bg-purple-500 focus:ring-4 focus:ring-purple-300 transition ease-in-out duration-200 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-center disabled:bg-gray-300 disabled:hover:bg-gray-300" @click="btnFunction('edit')">   
                 <div>
                     <svg xmlns="http://www.w3.org/2000/svg" class="mb-0.5 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

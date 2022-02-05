@@ -5,6 +5,7 @@ export const useStore = defineStore('main', {
     state: () => {
         return {
             toDoLists: [],
+            archivedToDoLists: [],
             id: '',
         };
     },
@@ -36,6 +37,10 @@ export const useStore = defineStore('main', {
             const filteredData = data.filter(record => record[column] === null);
             return filteredData;
         },
+        filterNotNull(data, column) {
+            const filteredData = data.filter(record => record[column] !== null);
+            return filteredData;
+        },
         async getToDoLists() {
             const { data, error } = await supabase
                 .from('to_do_lists')
@@ -43,9 +48,10 @@ export const useStore = defineStore('main', {
                 .eq('user_id',this.id)
                 .order('created_at', { ascending: true })
             const filteredData = this.filterNull(data, 'deleted_at');
-            this.toDoLists = filteredData;
+            const filteredAnotherData = this.filterNull(filteredData, 'completed_at');
+            this.toDoLists = filteredAnotherData;
             // console.log(filteredData)
-            return filteredData;
+            return filteredAnotherData;
         },
         async addToDo(payload) {
             await supabase
@@ -78,7 +84,17 @@ export const useStore = defineStore('main', {
                 .eq('task_no', payload.taskNo);
             await this.getToDoLists();
         },
-
+        async getArchiveToDoLists() {
+            const { data, error } = await supabase
+                .from('to_do_lists')
+                .select('*')
+                .eq('user_id',this.id)
+                .is('deleted_at', null)
+                .not('completed_at', 'is', null)
+                .order('created_at', { ascending: true })
+            this.archivedToDoLists = data;
+            return data;
+        },
     }
 });
 

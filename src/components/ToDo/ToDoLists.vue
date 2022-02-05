@@ -6,6 +6,7 @@ const elTitle = "To-do lists";
 const isLoading = ref(true);
 import { useStore } from "../../store/store.js";
 import LoadingCard from './LoadingCard.vue';
+import ArchiveDialog from './ArchiveDialog.vue';
 const main = useStore();
 onMounted(async () => { // define async function onmount to render component
   await main.getToDoLists()
@@ -21,23 +22,29 @@ onMounted(async () => { // define async function onmount to render component
 });
 const toDoLists = ref([]);
 main.$onAction(({name, store, after}) => { //subscribe to store action
-  isLoading.value = true;
+  
 //   console.log('action name',name)
   after((res)=> {
     // console.log('Res', res);
     if (name === 'filterNull') {
+      isLoading.value = true;
       toDoLists.value = res;
-      isLoading.value = false;
+      
     }
+    isLoading.value = false;
   });
 });
 
 const dialog = ref(false);
+const archiveDialog = ref(false);
 const option = ref('');
 const toggleDialog = (mode) => {
     option.value = mode;
     dialog.value = !dialog.value;
 };
+const toggleArchiveDialog = () => {
+  archiveDialog.value = !archiveDialog.value;
+}
 </script>
 
 <template>
@@ -45,11 +52,11 @@ const toggleDialog = (mode) => {
         <div class="flow-root">
             <h3 class="text-2xl font-semibold float-left">{{ elTitle }}</h3>
             <div class="float-right flex">
-              <!-- <button class="bg-indigo-600 hover:bg-indigo-700 transition duration-200 focus:ring-4 focus:ring-gray-300 rounded-lg text-white mt-1 mr-1 p-2">
+              <button class="bg-indigo-600 hover:bg-indigo-700 transition duration-200 focus:ring-4 focus:ring-gray-300 rounded-lg text-white mt-1 mr-1 p-2" @click="toggleArchiveDialog">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 p-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
                 </svg>
-              </button> -->
+              </button>
               <button class="bg-gray-700 hover:bg-gray-800 transition duration-200 focus:ring-4 focus:ring-gray-300 rounded-lg text-white mt-1 mr-1 p-2" @click="toggleDialog('add')">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 p-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
@@ -66,4 +73,7 @@ const toggleDialog = (mode) => {
         v-if="dialog"
         :option="option"
         @toggle="toggleDialog" />
+    <ArchiveDialog
+        v-if="archiveDialog"
+        @toggleArchive="toggleArchiveDialog" />
 </template>

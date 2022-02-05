@@ -124,9 +124,9 @@ const loop = watchEffect(() => {
       <div class="bg-gray-900 w-full h-fit rounded-xl shadow-md mx-auto p-3 mt-3">
         <div class="mx-auto w-full">
           <div class="mx-auto">
-            <h1 class="text-3xl text-center mt-3 font-bold text-white">Timer</h1>
-            <p class="text-center text-gray-100">Session: {{ typeDisplay(timeSet[n]) }}</p>
-            <p class="text-center text-6xl my-4 text-white">{{ timeDisplay(timeSet[n]) }}</p>
+            <h1 class="text-3xl text-center mt-3 font-bold text-white select-none">Timer</h1>
+            <p class="text-center text-gray-100 select-none">Session: {{ typeDisplay(timeSet[n]) }}</p>
+            <p class="text-center text-7xl mt-2 mb-5 text-white select-none">{{ timeDisplay(timeSet[n]) }}</p>
           </div>
           <div class="bg-gray-200 w-full h-2.5 my-3">
             <div class="h-2.5 my-3" :class="barColor(timeSet[n])" :style="width(timeSet[n])"></div>
