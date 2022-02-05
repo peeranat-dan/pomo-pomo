@@ -114,7 +114,7 @@ const barColor = (option) => {
 const loop = watchEffect(() => {
   if (n.value === timeSet.value.length) {
     n.value = 0;
-    console.log('loop')
+    // console.log('loop')
   }
 });
 </script>

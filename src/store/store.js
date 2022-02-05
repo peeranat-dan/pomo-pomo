@@ -22,7 +22,7 @@ export const useStore = defineStore('main', {
             return result;
         },
         token() {
-            console.log("token");
+            // console.log("token");
             const token = this.randomId(30);
             localStorage.setItem('id', token);
             this.id = token;
