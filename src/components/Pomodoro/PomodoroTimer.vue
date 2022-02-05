@@ -121,7 +121,7 @@ const loop = watchEffect(() => {
 
 <template>
     <div>
-      <div class="bg-gray-900 w-full h-fit rounded-xl shadow-md mx-auto p-3 mt-10">
+      <div class="bg-gray-900 w-full h-fit rounded-xl shadow-md mx-auto p-3 mt-3">
         <div class="mx-auto w-full">
           <div class="mx-auto">
             <h1 class="text-3xl text-center mt-3 font-bold text-white">Timer</h1>
