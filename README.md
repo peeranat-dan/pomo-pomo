@@ -1,7 +1,7 @@
 # Pomo-Pomo
 - **Pomodoro Timer**
 - Coded with **Vue 3 + Vite**
-- Styling with **Tailwindcss**
+- Styling with **Tailwind CSS**
 - Create a backend using **Supabase**
 - [Site URL](https://pomo-pomo.netlify.app/home)
 
