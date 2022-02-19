@@ -42,11 +42,19 @@ export const useStore = defineStore('main', {
             return filteredData;
         },
         async getToDoLists() {
+            // const today = new Date();
+            // console.log(today)
             const { data, error } = await supabase
                 .from('to_do_lists')
                 .select('*')
                 .eq('user_id',this.id)
+                // .like('created_at', today)
+
                 .order('created_at', { ascending: true })
+            if (error) {
+                this.toDoLists = [];
+                return;
+            }
             const filteredData = this.filterNull(data, 'deleted_at');
             const filteredAnotherData = this.filterNull(filteredData, 'completed_at');
             this.toDoLists = filteredAnotherData;

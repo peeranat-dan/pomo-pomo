@@ -8,19 +8,20 @@ import { useStore } from "../../store/store.js";
 import LoadingCard from './LoadingCard.vue';
 import ArchiveDialog from './ArchiveDialog.vue';
 const main = useStore();
-onMounted(async () => { // define async function onmount to render component
+
+const toDoLists = ref([]);onMounted(async () => { // define async function onmount to render component
   await main.getToDoLists()
-  .then(res=> {
-      // console.log(res);
-    if (res !== null) {
-      toDoLists.value = res;
-    } else {
-      toDoLists.value = [];
-    }
-  })
+      .then(res=> {
+        console.log(res);
+        if (res != null) {
+          toDoLists.value = res;
+        } else {
+          toDoLists.value = [];
+        }
+      })
   isLoading.value = false;
 });
-const toDoLists = ref([]);
+
 main.$onAction(({name, store, after}) => { //subscribe to store action
   
 //   console.log('action name',name)
