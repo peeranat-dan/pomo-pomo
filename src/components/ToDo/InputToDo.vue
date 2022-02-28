@@ -103,8 +103,8 @@ const buttonFunction = async () => {
         <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
           <div>
             <div class="mt-2">
-              <input v-if="!errorTitle" :disabled="!edit" type="text" v-model="enteredTitle" placeholder="Task name (display 30 characters) *"  class="mb-2 w-full max-h-10 rounded-xl p-3 border border-gray-300" />
-              <input v-else v-model="enteredTitle" placeholder="Task name (display 30 characters) *"  class="mb-2 w-full max-h-10 rounded-xl p-3 bg-red-50 border border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500" />
+              <input v-if="!errorTitle" :disabled="!edit" type="text" v-model="enteredTitle" placeholder="Task name (display 30 characters) *"  class="mb-2 w-full max-h-10 rounded-xl p-3 border border-gray-300" @keydown.enter="buttonFunction"/>
+              <input v-else v-model="enteredTitle" placeholder="Task name (display 30 characters) *"  class="mb-2 w-full max-h-10 rounded-xl p-3 bg-red-50 border border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500" @keydown.enter="buttonFunction" />
 
               <div class="h-0.5 w-full bg-gray-100 mb-2" />
               <textarea :disabled="!edit" v-model="enteredDescription" class="w-full rounded-xl px-3 py-2 border border-gray-300 resize-none" rows="5" placeholder="Task description"></textarea>
@@ -112,15 +112,15 @@ const buttonFunction = async () => {
           </div>
         </div>
         <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-          <button type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-red-500 hover:text-white focus:bg-red-600 focus:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition ease-in-out duration-200 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm" @click="toggleDialog" >
+          <button v-if="!isDoingFunction" type="button" class="bg-pink-button-normal hover:bg-pink-button-hover disabled:hover:bg-pink-button-normal transition duration-300 mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500 transition ease-in-out duration-200 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm" @click="buttonFunction">
+            {{ buttonText.main}}
+          </button>
+          <button v-else type="button" disabled class="bg-pink-button-normal hover:bg-pink-button-hover disabled:hover:bg-pink-button-normal transition duration-300 mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500 transition ease-in-out duration-200 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm" @click="buttonFunction">
+            Loading...
+          </button>
+          <button type="button" :disabled="isDoingFunction" class="mt-3 w-full inline-flex disabled:hover:bg-white disabled:hover:text-gray-700 justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-red-500 hover:text-white focus:bg-red-600 focus:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition ease-in-out duration-200 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm" @click="toggleDialog" >
             {{ buttonText.cancel }}
           </button>
-          <button v-if="!isDoingFunction" type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-slate-500 text-base font-medium text-white hover:bg-slate-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500 transition ease-in-out duration-200 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm" @click="buttonFunction">
-            {{ buttonText.main}}
-          </button>
-          <button v-else type="button" disabled class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-slate-500 text-base font-medium text-white hover:bg-slate-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500 transition ease-in-out duration-200 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm" @click="buttonFunction">
-            {{ buttonText.main}}
-          </button> 
         </div>
       </div>
     </div>

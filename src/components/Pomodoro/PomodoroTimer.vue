@@ -45,6 +45,8 @@ const start = (option) => {
           timeRunning.pomodoro = timeReference.pomodoro;
           n.value ++;
           timerRunning.value = false;
+          playAudio(finishAudio);
+          alert('Break')
         }
       }, 1000)
     } else if (option === 'sBreak') {
@@ -58,6 +60,8 @@ const start = (option) => {
           timeRunning.shortBreak = timeReference.shortBreak;
           n.value ++;
           timerRunning.value = false;
+          playAudio(finishAudio);
+          alert('continue');
         }
       }, 1000)
     } else if (option === 'lBreak') {
@@ -70,6 +74,8 @@ const start = (option) => {
           timeRunning.longBreak = timeReference.longBreak;
           n.value ++;
           timerRunning.value = false;
+          playAudio(finishAudio);
+          alert('finish one pomodoro!');
         }
       }, 1000)
     }
@@ -104,11 +110,11 @@ const width = (option) => {
 };
 const barColor = (option) => {
   if (option === 'pomodoro') {
-    return "bg-red-500";
+    return "red-pomo";
   } else if (option === 'sBreak') {
-    return "bg-indigo-500";
+    return "blue-pomo";
   } else if (option === 'lBreak') {
-    return "bg-blue-400";
+    return "green-pomo";
   }
 };
 const loop = watchEffect(() => {
@@ -117,33 +123,37 @@ const loop = watchEffect(() => {
     // console.log('loop')
   }
 });
+
+const playAudio = (url) => {
+  const audio = new Audio(url);
+  audio.play();
+};
+
+const finishAudio = 'https://qjkoynljumxyjpethyls.supabase.in/storage/v1/object/sign/sound/i-did-it-message-tone.mp3?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJzb3VuZC9pLWRpZC1pdC1tZXNzYWdlLXRvbmUubXAzIiwiaWF0IjoxNjQ2MDM3NjM1LCJleHAiOjE5NjEzOTc2MzV9.N8eBdT-Z0akz6jZx0ZZX-kMI6haUYEx40J_-VAsXO20';
 </script>
 
 <template>
-    <div>
-      <div class="bg-gray-900 w-full h-fit rounded-xl shadow-md mx-auto p-3 mt-3">
-        <div class="mx-auto w-full">
-          <div class="mx-auto">
-            <h1 class="text-3xl text-center mt-3 font-bold text-white select-none">Timer</h1>
-            <p class="text-center text-gray-100 select-none">Session: {{ typeDisplay(timeSet[n]) }}</p>
-            <p class="text-center text-7xl mt-2 mb-5 text-white select-none">{{ timeDisplay(timeSet[n]) }}</p>
+    <div @keydown.enter="start(timeSet[n])" class="mx-auto">
+      <div class="rounded-xl w-full">
+        <div class="mx-auto">
+          <div class="mx-auto mt-3">
+            <h1 class="text-4xl text-center font-bold text-black select-none">Timer</h1>
           </div>
-          <div class="bg-gray-200 w-full h-2.5 my-3">
-            <div class="h-2.5 my-3" :class="barColor(timeSet[n])" :style="width(timeSet[n])"></div>
+          <div class="rounded-full flex w-[15rem] h-[15rem] mx-auto mt-8 mb-12 shadow-lg" :class="'bg-' + barColor(timeSet[n])">
+            <div class="rounded-full flex bg-white w-[12rem] h-[12rem] mx-auto my-auto">
+            <p class="text-center font-bold text-6xl mx-auto my-auto select-none" :class="'text-'+ barColor(timeSet[n])">{{ timeDisplay(timeSet[n]) }}</p>
+            </div>
           </div>
-          <div class="flex justify-center mt-2 mb-3">
-            <button @click="start(timeSet[n])" class="bg-red-500 hover:bg-red-600 transition duration-200 rounded-lg p-2 mx-1 text-white" v-if="!timerRunning">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
-              </svg>
+          <div class="flex justify-center mb-3">
+            <button  @click="start(timeSet[n])" class="bg-purple-pomo  hover:bg-purple-button transition duration-300 rounded-full py-2 px-16 mx-1 text-white hover:text-white text-2xl" v-if="!timerRunning">
+              Start
             </button>
-            <button @click="stop" class="bg-stone-500 hover:bg-stone-600 transition duration-200 rounded-lg p-2 mx-1 text-white" v-else>
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
-              </svg>
+            <button @click="stop" class="bg-red-pomo hover:bg-red-800 focus:bg-red-900 transition duration-300 rounded-full py-2 px-16 mx-1 text-white hover:text-white text-2xl" v-else>
+              Stop
             </button>
           </div>
         </div>
+
       </div>
     </div>
 </template>

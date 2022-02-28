@@ -1,8 +1,8 @@
 <script setup>
 </script>
 <template>
-    <div class="lg:w-[40rem] w-full mx-auto rounded-b-xl bg-slate-500 py-2 pl-4 flow-root shadow-lg">
-        <div class="text-3xl font-bold text-white float-left select-none">
+    <div class="w-full mx-auto rounded-b-xl py-5 pl-4 flow-root">
+        <div class="text-3xl font-bold float-left select-none text-slate-600">
             PoMo-PoMo
         </div>
         <!-- <div class="float-right">

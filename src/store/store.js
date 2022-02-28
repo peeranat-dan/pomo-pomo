@@ -7,6 +7,8 @@ export const useStore = defineStore('main', {
             toDoLists: [],
             archivedToDoLists: [],
             id: '',
+            today: new Date(new Date().setHours(0,0,0,0)),
+            tomorrow: null,
         };
     },
     getters: {
@@ -32,6 +34,12 @@ export const useStore = defineStore('main', {
         },
         init() {
             this.id = !!localStorage.getItem('id') ? localStorage.getItem('id') : this.token();
+            this.getNextNDate(1)
+        },
+        getNextNDate(days) {
+            let today = new Date(new Date().setHours(0,0,0,0));
+            const tomorrow = new Date(today.setDate(today.getDate() + days));
+            this.tomorrow = tomorrow
         },
         filterNull(data, column) {
             const filteredData = data.filter(record => record[column] === null);
@@ -41,16 +49,18 @@ export const useStore = defineStore('main', {
             const filteredData = data.filter(record => record[column] !== null);
             return filteredData;
         },
-        async getToDoLists() {
+        async getToDoLists(n) {
             // const today = new Date();
             // console.log(today)
+
             const { data, error } = await supabase
                 .from('to_do_lists')
                 .select('*')
                 .eq('user_id',this.id)
-                // .like('created_at', today)
-
+                .lt('created_at', this.tomorrow.toISOString())
+                .gt('created_at', this.today.toISOString())
                 .order('created_at', { ascending: true })
+
             if (error) {
                 this.toDoLists = [];
                 return;
@@ -59,7 +69,7 @@ export const useStore = defineStore('main', {
             const filteredAnotherData = this.filterNull(filteredData, 'completed_at');
             this.toDoLists = filteredAnotherData;
             // console.log(filteredData)
-            return filteredAnotherData;
+            return filteredAnotherData.slice(0,n);
         },
         async addToDo(payload) {
             await supabase
@@ -99,6 +109,8 @@ export const useStore = defineStore('main', {
                 .eq('user_id',this.id)
                 .is('deleted_at', null)
                 .not('completed_at', 'is', null)
+                .lt('created_at', this.tomorrow.toISOString())
+                .gt('created_at', this.today.toISOString())
                 .order('created_at', { ascending: true })
             this.archivedToDoLists = data;
             return data;
