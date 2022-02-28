@@ -10,9 +10,8 @@ import ArchiveDialog from './ArchiveDialog.vue';
 const main = useStore();
 
 const toDoLists = ref([]);onMounted(async () => { // define async function onmount to render component
-  await main.getToDoLists()
+  await main.getToDoLists(8)
       .then(res=> {
-        console.log(res);
         if (res != null) {
           toDoLists.value = res;
         } else {
@@ -29,7 +28,7 @@ main.$onAction(({name, store, after}) => { //subscribe to store action
     // console.log('Res', res);
     if (name === 'filterNull') {
       isLoading.value = true;
-      toDoLists.value = res;
+      toDoLists.value = res.slice(0,8);
       
     }
     isLoading.value = false;
@@ -45,29 +44,35 @@ const toggleDialog = (mode) => {
 };
 const toggleArchiveDialog = () => {
   archiveDialog.value = !archiveDialog.value;
-}
+};
+
+const today = ref(main.tomorrow.toISOString().substring(0,10));
 </script>
 
 <template>
-    <div class="bg-gray-300 rounded-xl px-3 py-2">
-        <div class="flow-root">
-            <h3 class="text-2xl font-semibold float-left">{{ elTitle }}</h3>
+    <div class="bg-pink-card shadow-lg rounded-xl pl-5 pr-3 py-4 h-fit">
+        <div class="flow-root mb-5">
+          <div class="float-left flex items-center space-x-3 select-none">
+            <h3 class="text-2xl font-bold text-white">{{ elTitle }} </h3>
+            <div class="bg-white text-purple-pomo font-bold rounded px-3 py-2">{{ today }}</div>
+          </div>
+
             <div class="float-right flex">
-              <button class="bg-indigo-600 hover:bg-indigo-700 transition duration-200 focus:ring-4 focus:ring-gray-300 rounded-lg text-white mt-1 mr-1 p-2" @click="toggleArchiveDialog">
+              <button class="bg-pink-button-normal hover:bg-pink-button-hover transition duration-200 focus:ring-4 focus:ring-pink-button-normal focus:ring-opacity-30 rounded-lg text-white mt-1 mr-1 p-2 shadow-lg" @click="toggleArchiveDialog">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 p-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
                 </svg>
               </button>
-              <button class="bg-gray-700 hover:bg-gray-800 transition duration-200 focus:ring-4 focus:ring-gray-300 rounded-lg text-white mt-1 mr-1 p-2" @click="toggleDialog('add')">
+              <button class="bg-purple-button hover:bg-gray-800 transition duration-200 focus:ring-4 focus:ring-gray-300 focus:ring-opacity-30 rounded-lg text-white mt-1 mr-1 p-2 shadow-lg" @click="toggleDialog('add')">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 p-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                 </svg>
               </button>
             </div>
-            
+
         </div>
         <LoadingCard v-if="isLoading"/>
-        <p v-else-if="toDoLists.length === 0 && !isLoading">Nothing here ;(</p>
+        <p class="text-white" v-else-if="toDoLists.length === 0 && !isLoading">Nothing here ;(</p>
         <ToDoCard v-for="toDo in toDoLists" :key="toDo.task_no" :toDo="toDo" v-else-if="toDoLists.length !== 0 && !isLoading"/> 
     </div>
     <InputToDo 

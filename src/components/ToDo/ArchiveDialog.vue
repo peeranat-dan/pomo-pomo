@@ -37,7 +37,7 @@ const toggleDialog = () => {
       <div class="inline-block align-bottom bg-gray-200 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
         <div class="bg-gray-200 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
           <div>
-              <h3 class="text-2xl font-semibold">Done today</h3>
+              <h3 class="text-2xl font-semibold mb-8">Done today</h3>
               <LoadingCard v-if="isLoading" />
               <ToDoCard v-for="toDo in archiveToDo" :toDo="toDo" :isArchive="isArchive" />
             <!-- <div class="mt-2">
