@@ -19,10 +19,10 @@ onBeforeMount(()=> {
 
     <div class="rounded-xl bg-white shadow-lg p-5 sm:p-12 mx-5" style="height: 90%">
       <div class="flex space-x-12 mb-12 items-center">
-        <h1 class="text-3xl font-black">PoMo.</h1>
+        <h1 class="text-3xl font-black">PoMo-PoMo</h1>
         <div class="flex space-x-12 invisible sm:visible">
           <router-link class="hover:text-purple-pomo transition duration-150" to="/home">Home</router-link>
-          <router-link class="hover:text-purple-pomo transition duration-150" to="/about">About PoMo.</router-link>
+          <router-link class="hover:text-purple-pomo transition duration-150" to="/about">About</router-link>
         </div>
       </div>
     <router-view />

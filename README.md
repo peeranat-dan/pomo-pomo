@@ -14,7 +14,7 @@ URL: [https://pomo-pomo.netlify.app/home](https://pomo-pomo.netlify.app/home)
 ### V1.0
 - Launched
 
-##Future Plan
+## Future Plan
 - Migrate to ReactJS
 - Authentication
 - User's selection on time, color palette, style

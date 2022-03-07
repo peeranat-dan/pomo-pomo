@@ -47,6 +47,7 @@ const toggleDialog = () => {
               <div class="h-0.5 w-full bg-gray-100 mb-2" />
               <textarea :disabled="!edit" v-model="enteredDescription" class="w-full rounded-xl px-3 py-2 border border-gray-300 resize-none" rows="5" placeholder="Task description"></textarea>
             </div> -->
+            <p v-if="!isLoading && archiveToDo.length === 0">No task here! Good Job!</p>
           </div>
         </div>
         <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
